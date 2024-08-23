@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_COLA 30
+#define MAX_COLA 10
 
 typedef struct _Cola{
     int datos[MAX_COLA];
@@ -36,29 +36,32 @@ int cola_primero(Cola *a){
 void cola_encolar(Cola *a, int x){
     if(a->primero == (a->ultimo + 1) % MAX_COLA){
         printf("La cola esta llena");
+        return;
     }
-    else{
-        a->ultimo = (a->ultimo + 1) % MAX_COLA;
-        a->datos[a->ultimo] = x;
-    }
+
+    a->ultimo = (a->ultimo + 1) % MAX_COLA;
+    a->datos[a->ultimo] = x;
 }
 
 void cola_desencolar(Cola *a){
-    if (cola_es_vacia(a))
+    if (cola_es_vacia(a)){
         printf("La cola esta vacia");
-    else{
-        a->primero= (a->primero + 1) % MAX_COLA;
+        return;
     }
+    
+    a->primero= (a->primero + 1) % MAX_COLA;
 }
 
 void cola_imprimir(Cola *a){
-    if (cola_es_vacia(a))
+    if (cola_es_vacia(a)){
         printf("La cola esta vacia");
-    else{
-        for(int i=0; i <= abs(a->primero - a->ultimo) ; i++){
-            printf("%i\n", a->datos[(a->primero + i) % MAX_COLA]);
-        }
+        return;
     }
+    
+    for(int i=1; i <= abs(a->primero - a->ultimo) ; i++){
+        printf("%i\n", a->datos[(a->primero + i) % MAX_COLA]);
+    }
+    
 }
 
 void cola_destruir(Cola *a){
@@ -72,7 +75,7 @@ int main(){
     cola_encolar(miCola, 6);
     cola_encolar(miCola, 10);
 
-    cola_imprimirV2(miCola);
+    cola_imprimir(miCola);
 
     cola_destruir(miCola);
 }

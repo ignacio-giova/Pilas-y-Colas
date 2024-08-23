@@ -6,19 +6,23 @@
 typedef struct _Pila {
     int *datos;
     int ultimo;
+    int capacidad;
 } Pila;
+
 
 Pila * crear_pila() {
     Pila *nuevaPila = malloc (sizeof (struct _Pila));
-    if (nuevaPila != NULL){
-        (*nuevaPila).datos = malloc (sizeof (int));
-        if((*nuevaPila).datos == NULL)
-            return NULL;
+    if (nuevaPila == NULL)
+        return NULL;
 
-    }
-    
+    nuevaPila->capacidad = MAX_PILA;
+
+    (*nuevaPila).datos = malloc (sizeof (int) * nuevaPila->capacidad);
+    if((*nuevaPila).datos == NULL)
+        return NULL;
+
     (*nuevaPila).ultimo = -1;
-    return nuevaPila;
+    return nuevaPila;    
 }
 
 int pila_es_vacia(Pila *a){
@@ -28,32 +32,32 @@ int pila_es_vacia(Pila *a){
 int pila_top(const Pila *a){
     if ((*a).ultimo == -1)
         return -1;
-    else
-        return (*a).datos[(*a).ultimo];
+    return (*a).datos[(*a).ultimo];
 }
 
 void pila_push(Pila *a, int x){
-    (*a).ultimo++;
-    (a->datos) = realloc((a->datos), ((a->ultimo) + 1) * sizeof(int));
-    if (a->datos == NULL){
-        printf("V1_ Hubo error al redimensionar la pila");
-        return;
+    if(a->ultimo + 1 == a->capacidad){
+        (a->datos) = realloc((a->datos), (a->capacidad * 2) * sizeof(int));
+        if (a->datos == NULL){
+            printf("Hubo error al redimensionar la pila");
+            return;
+        }
+        else
+            a->capacidad*=2;
     }
+    
+    a->ultimo++;
     (*a).datos[(*a).ultimo] = x;
 
 }
 
 void pila_pop(Pila *a){
-    if ((*a).ultimo == -1)
+    if ((*a).ultimo == -1){
         printf("La lista esta vacia");
-    else{
-         (*a).ultimo--;
-        (a->datos) = realloc((a->datos), ((a->ultimo) + 1) * sizeof(int));
-        if (a->datos == NULL){
-            printf("V2_ Hubo error al redimensionar la pila");
-            return;
-         }
+        return;
     }
+    
+    (*a).ultimo--;
 }
 
 void pila_imprimir(const Pila *a){      //Estructura Directa
