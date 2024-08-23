@@ -51,10 +51,11 @@ void cola_encolar(Cola *a, int x){
             printf("Hubo error al redimensionar la pila");
             return;
         }
-        else
-            a->capacidad*=2;
-        }
+        a->capacidad*=2;
+        if(a->primero > a->ultimo){ //Mover la parte derecha a la derecha (For - While)
 
+        }
+    }
     a->ultimo = (a->ultimo + 1) % MAX_COLA;
     a->datos[a->ultimo] = x;
 }
